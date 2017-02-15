@@ -1,0 +1,360 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_mysql1_uri": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_mysql1_uri_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_mysql1_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_mysql2_uri": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_mysql2_uri_1": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_mysql2_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "availabilitySets_mysql_name": {
+            "defaultValue": "mysql",
+            "type": "String"
+        },
+        "virtualMachines_mysql1_name": {
+            "defaultValue": "mysql1",
+            "type": "String"
+        },
+        "virtualMachines_mysql2_name": {
+            "defaultValue": "mysql2",
+            "type": "String"
+        },
+        "networkInterfaces_mysql175_name": {
+            "defaultValue": "mysql175",
+            "type": "String"
+        },
+        "networkInterfaces_mysql2243_name": {
+            "defaultValue": "mysql2243",
+            "type": "String"
+        },
+        "publicIPAddresses_mysql1_ip_name": {
+            "defaultValue": "mysql1-ip",
+            "type": "String"
+        },
+        "publicIPAddresses_mysql2_ip_name": {
+            "defaultValue": "mysql2-ip",
+            "type": "String"
+        },
+        "virtualNetworks_mysql_vnet_name": {
+            "defaultValue": "mysql-vnet",
+            "type": "String"
+        },
+        "vaults_mysql_name": {
+            "defaultValue": "mysql",
+            "type": "String"
+        },
+        "storageAccounts_mysqldiag805_name": {
+            "defaultValue": "mysqldiag805",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Compute/availabilitySets/mysql'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_mysql_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "northeurope",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 2
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Compute/virtualMachines/mysql1'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_mysql1_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "northeurope",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_mysql_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS2_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_mysql1_name')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "vhd": {
+                            "uri": "[parameters('virtualMachines_mysql1_uri')]"
+                        }
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_mysql1_name'),'disk')]",
+                            "createOption": "Attach",
+                            "caching": "ReadOnly",
+                            "diskSizeGB": 1023,
+                            "vhd": {
+                                "uri": "[parameters('virtualMachines_mysql1_uri_1')]"
+                            }
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_mysql1_name')]",
+                    "adminUsername": "tomer",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_mysql1_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_mysql175_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_mysql_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_mysql175_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Compute/virtualMachines/mysql2'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_mysql2_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "northeurope",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_mysql_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS2_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "16.04-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_mysql2_name')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "vhd": {
+                            "uri": "[parameters('virtualMachines_mysql2_uri')]"
+                        }
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_mysql2_name'),'disk')]",
+                            "createOption": "Attach",
+                            "caching": "ReadOnly",
+                            "diskSizeGB": 1023,
+                            "vhd": {
+                                "uri": "[parameters('virtualMachines_mysql2_uri_1')]"
+                            }
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_mysql2_name')]",
+                    "adminUsername": "tomer",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_mysql2_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_mysql2243_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_mysql_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_mysql2243_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Network/networkInterfaces/mysql175'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_mysql175_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "northeurope",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "172.17.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mysql1_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mysql_vnet_name')), '/subnets/default')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mysql1_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mysql_vnet_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Network/networkInterfaces/mysql2243'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_mysql2243_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "northeurope",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "172.17.1.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mysql2_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mysql_vnet_name')), '/subnets/default')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mysql2_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mysql_vnet_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Network/publicIPAddresses/mysql1-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_mysql1_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "northeurope",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Network/publicIPAddresses/mysql2-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_mysql2_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "northeurope",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Network/virtualNetworks/mysql-vnet'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_mysql_vnet_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "northeurope",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "172.17.1.0/24"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "addressPrefix": "172.17.1.0/24"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.RecoveryServices/vaults/mysql'.",
+            "type": "Microsoft.RecoveryServices/vaults",
+            "sku": {
+                "name": "RS0",
+                "tier": "Standard"
+            },
+            "name": "[parameters('vaults_mysql_name')]",
+            "apiVersion": "2016-06-01",
+            "location": "northeurope",
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/68a4bf4c-8982-4258-997b-a5ccf585939c/resourceGroups/mysql/providers/Microsoft.Storage/storageAccounts/mysqldiag805'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_mysqldiag805_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "northeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        }
+    ]
+}
