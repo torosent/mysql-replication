@@ -6,8 +6,6 @@ apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
 apt-get update
 apt-cache policy docker-engine
 apt-get install -y docker-engine
-systemctl status docker
-
 docker network create app-tier --driver host
 docker run --name mysql-master \
    --network app-tier \
