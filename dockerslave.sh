@@ -22,3 +22,4 @@ docker run --name mysql-slave --link mysql-master:master \
   -e MYSQL_PASSWORD=my_password \
   -e MYSQL_DATABASE=my_database \
   bitnami/mysql:latest
+  
