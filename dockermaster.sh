@@ -8,6 +8,7 @@ apt-cache policy docker-engine
 sudo apt-get install -y docker-engine
 sudo systemctl status docker
 
+mkdir /datadrive
 sudo docker network create app-tier --driver bridge
 sudo docker run --name mysql-master \
    --network app-tier \
