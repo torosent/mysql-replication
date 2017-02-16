@@ -1,5 +1,6 @@
 #!/bin/bash
 
+masterhost=$1
 apt-get update
 apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
@@ -17,7 +18,7 @@ systemctl status docker
   -e MYSQL_REPLICATION_MODE=slave \
   -e MYSQL_REPLICATION_USER=my_repl_user \
   -e MYSQL_REPLICATION_PASSWORD=my_repl_password \
-  -e MYSQL_MASTER_HOST=172.17.1.4 \
+  -e MYSQL_MASTER_HOST=$masterhost \
   -e MYSQL_MASTER_USER=my_user \
   -e MYSQL_MASTER_PASSWORD=my_password \
   -e MYSQL_USER=my_user \
