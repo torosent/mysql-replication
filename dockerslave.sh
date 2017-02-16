@@ -6,9 +6,7 @@ apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
 apt-get update
 apt-cache policy docker-engine
 apt-get install -y docker-engine
-docker network create app-tier --driver host
 docker run --name mysql-slave --link mysql-master:master \
-   --network app-tier \
    -p 3306:3306 \
    -d \
    -v /datadisks/disk1:/bitnami/mysql \
