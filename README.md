@@ -4,7 +4,7 @@
 
 [https://mysql.com/](https://mysql.com/)
 
-# MySQL Replication Cluster Master - Slace
+# MySQL Replication Cluster Master - Slave
 
 A **zero downtime** MySQL master-slave [replication](https://dev.mysql.com/doc/refman/5.0/en/replication-howto.html) cluster can easily be setup with the Bitnami MySQL Docker image using the following environment variables:
 
