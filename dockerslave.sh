@@ -6,7 +6,6 @@ apt-add-repository 'deb https://apt.dockerproject.org/repo ubuntu-xenial main'
 apt-get update
 apt-cache policy docker-engine
 apt-get install -y docker-engine
-systemctl status docker
 docker network create app-tier --driver bridge
 docker run --name mysql-slave --link mysql-master:master \
    --network app-tier \
