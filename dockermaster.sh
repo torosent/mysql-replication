@@ -8,7 +8,7 @@ apt-cache policy docker-engine
 apt-get install -y docker-engine
 systemctl status docker
 
-docker network create app-tier --driver bridge
+docker network create app-tier --driver host
 docker run --name mysql-master \
    --network app-tier \
    -v /datadisks/disk1:/bitnami/mysql \
