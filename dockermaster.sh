@@ -8,11 +8,10 @@ apt-cache policy docker-engine
 apt-get install -y docker-engine
 systemctl status docker
 
-mkdir /datadrive
 docker network create app-tier --driver bridge
 docker run --name mysql-master \
    --network app-tier \
-   -v /datadrive:/bitnami/mysql \
+   -v /datadisks/disk1:/bitnami/mysql \
    -p 3306:3306 \
    -d \
   -e MYSQL_ROOT_PASSWORD=root_password \
