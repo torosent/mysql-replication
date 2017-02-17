@@ -1,8 +1,6 @@
 #!/bin/bash
 
-docker network create app-tier --driver bridge
 docker run --name mysql-master \
-  --network app-tier \
    -v /datadisks/disk1:/bitnami/mysql \
    -p 3306:3306 \
    -d \
