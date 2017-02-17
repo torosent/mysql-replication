@@ -157,7 +157,8 @@ az vm extension set -n CustomScript --publisher Microsoft.Azure.Extensions \
 	--settings '{"fileUris": ["https://raw.githubusercontent.com/torosent/mysql-replication/master/initattacheddisk.sh"],"commandToExecute": "./initattacheddisk.sh"}'
 
 az vm extension set -n DockerExtension --publisher Microsoft.Azure.Extensions \
-   --vm-name $mastername --resource-group $resourceGroupName
+   --vm-name $mastername --resource-group $resourceGroupName \ 
+   --settings '{"docker":{"options": ["-D", "--dns=168.63.129.16"]}}'
    
 az vm extension set -n CustomScript --publisher Microsoft.Azure.Extensions \
 	--version 2.0 --vm-name $mastername --resource-group $resourceGroupName \
@@ -183,7 +184,8 @@ az vm extension set -n CustomScript --publisher Microsoft.Azure.Extensions \
 	--settings '{"fileUris": ["https://raw.githubusercontent.com/torosent/mysql-replication/master/initattacheddisk.sh"],"commandToExecute": "./initattacheddisk.sh"}'
 
 az vm extension set -n DockerExtension --publisher Microsoft.Azure.Extensions \
-   --vm-name $slave1name --resource-group $resourceGroupName
+   --vm-name $slave1name --resource-group $resourceGroupName \ 
+   --settings '{"docker":{"options": ["-D", "--dns=168.63.129.16"]}}'
    
 az vm extension set -n CustomScript --publisher Microsoft.Azure.Extensions \
 	--version 2.0 --vm-name $slave1name --resource-group $resourceGroupName \
