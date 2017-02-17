@@ -2,7 +2,7 @@
 
 masterhost="$1"
 docker network create app-tier --driver bridge
-docker run --name mysql-master \
+docker run --name mysql-slave --link mysql-master:master \
   --network app-tier \
    -p 3306:3306 \
    -d \
