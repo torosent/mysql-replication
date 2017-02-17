@@ -1,10 +1,10 @@
 #!/bin/bash
 
 masterhost="$1"
-docker network create app-tier --driver bridge
-docker run --name mysql-slave --link mysql-master:$masterhost \
-  --network app-tier \
+
+docker run --name mysql-slave \
    -p 3306:3306 \
+   --dns 168.63.129.16 \
    -d \
    -v /datadisks/disk1:/bitnami/mysql \
   -e MYSQL_ROOT_PASSWORD=root_password \
