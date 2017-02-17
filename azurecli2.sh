@@ -189,6 +189,6 @@ az vm extension set -n DockerExtension --publisher Microsoft.Azure.Extensions \
    
 az vm extension set -n CustomScript --publisher Microsoft.Azure.Extensions \
 	--version 2.0 --vm-name $slave1name --resource-group $resourceGroupName \
-	--settings '{"fileUris": ["https://raw.githubusercontent.com/torosent/mysql-replication/master/dockermaster.sh"],"commandToExecute": "./dockerslave.sh '$mastername'" }'
+	--settings '{"fileUris": ["https://raw.githubusercontent.com/torosent/mysql-replication/master/dockerslave.sh"],"commandToExecute": "./dockerslave.sh '$mastername'" }'
 	
 )
