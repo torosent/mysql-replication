@@ -24,62 +24,6 @@ declare loadBalancer="mySqlLB"
 declare natRuleMaster="natRuleMaster"
 declare natRuleSlave1="natRuleSlave1"
 
-# Initialize parameters specified from command line
-while getopts ":i:g:n:l:" arg; do
-	case "${arg}" in
-		i)
-			subscriptionId=${OPTARG}
-			;;
-		g)
-			resourceGroupName=${OPTARG}
-			;;
-		n)
-			deploymentName=${OPTARG}
-			;;
-		l)
-			resourceGroupLocation=${OPTARG}
-			;;
-		esac
-done
-shift $((OPTIND-1))
-
-#Prompt for parameters is some required parameters are missing
-if [[ -z "$subscriptionId" ]]; then
-	echo "Subscription Id:"
-	read subscriptionId
-	[[ "${subscriptionId:?}" ]]
-fi
-
-if [[ -z "$resourceGroupName" ]]; then
-	echo "ResourceGroupName:"
-	read resourceGroupName
-	[[ "${resourceGroupName:?}" ]]
-fi
-
-if [[ -z "$deploymentName" ]]; then
-	echo "DeploymentName:"
-	read deploymentName
-fi
-
-if [[ -z "$resourceGroupLocation" ]]; then
-	echo "Enter a location below to create a new resource group else skip this"
-	echo "ResourceGroupLocation:"
-	read resourceGroupLocation
-fi
-
-if [ -z "$subscriptionId" ] || [ -z "$resourceGroupName" ] || [ -z "$deploymentName" ]; then
-	echo "Either one of subscriptionId, resourceGroupName, deploymentName is empty"
-	usage
-fi
-
-#login to azure using your credentials
-az account show 1> /dev/null
-
-if [ $? != 0 ];
-then
-	az login
-fi
-
 #set the default subscription id
 az account set --subscription $subscriptionId
 
