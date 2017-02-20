@@ -50,7 +50,7 @@ echo "Starting deployment..."
 az network vnet create --resource-group $resourceGroupName --location $resourceGroupLocation --name myVnet \
   --address-prefix $vnetprefix  --subnet-name mySubnet --subnet-prefix $subnetprefix
   
-az vm availability-set create --resource-group $resourceGroupName --location $resourceGroupLocation --name mySqlAvailabilitySet --platform-fault-domain-count 3
+az vm availability-set create --resource-group $resourceGroupName --location $resourceGroupLocation --name mySqlAvailabilitySet --platform-update-domain-count 5 --platform-fault-domain-count 3
   
 az network lb create --resource-group $resourceGroupName --location $resourceGroupLocation \
   --name $loadBalancer --public-ip-address myPublicIP \
