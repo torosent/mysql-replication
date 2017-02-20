@@ -1,5 +1,4 @@
 #!/bin/bash
-
 masterhost="$1"
 docker rm $(docker ps -a -q) -f
 docker run --name mysql-slave \
