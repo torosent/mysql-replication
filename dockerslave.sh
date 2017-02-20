@@ -1,7 +1,7 @@
 #!/bin/bash
 
 masterhost="$1"
-docker rm $(docker ps -a -q)
+docker rm $(docker ps -a -q) -f
 docker run --name mysql-slave \
    -p 3306:3306 \
    --dns 168.63.129.16 \
