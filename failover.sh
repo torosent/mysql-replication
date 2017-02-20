@@ -9,13 +9,13 @@ declare loadBalancer="mySqlLB"
 declare natRuleMaster="natRuleMaster"
 declare natRuleSlave1="natRuleSlave1"
 
-az network lb inbound-nat-rule delete --resource-group $resourceGroupName \
+az network nic ip-config update --resource-group $resourceGroupName \
    --nic-name MySQLMasterNic1 --lb-name $loadBalancer --name ipconfig1 \
-   --lb-inbound-nat-rules mySQLSSH1 $natRuleSlave1
+   --lb-inbound-nat-rules mySQLSSH1
 
-az network lb inbound-nat-rule delete --resource-group $resourceGroupName \
+az network nic ip-config update --resource-group $resourceGroupName \
    --nic-name MySQLSlave1Nic1 --lb-name $loadBalancer --name ipconfig1 \
-   --lb-inbound-nat-rules mySQLSSH2 $natRuleMaster 
+   --lb-inbound-nat-rules mySQLSSH2 
    
 az network nic ip-config update --resource-group $resourceGroupName \
    --nic-name MySQLMasterNic1 --lb-name $loadBalancer --name ipconfig1 \
