@@ -20,6 +20,9 @@ declare vnetprefix=192.168.0.0/16
 declare subnetprefix=192.168.1.0/24
 declare mastername="MySQLMaster"
 declare slave1name="MySQLSlave1"
+declare loadBalancer="mySqlLB"
+declare natRuleMaster="natRuleMaster"
+declare natRuleSlave1="natRuleSlave1"
 
 # Initialize parameters specified from command line
 while getopts ":i:g:n:l:" arg; do
@@ -103,39 +106,39 @@ echo "Starting deployment..."
 az network vnet create --resource-group $resourceGroupName --location $resourceGroupLocation --name myVnet \
   --address-prefix $vnetprefix  --subnet-name mySubnet --subnet-prefix $subnetprefix
   
-az vm availability-set create --resource-group $resourceGroupName --location $resourceGroupLocation --name mySqlAvailabilitySet --platform-fault-domain-count 3
+az vm availability-set create --resource-group $resourceGroupName --location $resourceGroupLocation --name mySqlAvailabilitySet --platform-fault-domain-count 3 --no-wait
   
 az network lb create --resource-group $resourceGroupName --location $resourceGroupLocation \
-  --name myLoadBalancer --public-ip-address myPublicIP \
+  --name $loadBalancer --public-ip-address myPublicIP \
   --frontend-ip-name myFrontEndPool --backend-pool-name myBackEndPool
   
 az network lb inbound-nat-rule create --resource-group $resourceGroupName \
-  --lb-name myLoadBalancer --name myLoadBalancerRuleSSH1 --protocol tcp \
+  --lb-name $loadBalancer --name mySQLSSH1 --protocol tcp \
   --frontend-port 4222 --backend-port 22 --frontend-ip-name myFrontEndPool
 
 az network lb inbound-nat-rule create --resource-group $resourceGroupName \
-  --lb-name myLoadBalancer --name myLoadBalancerRuleMySQL1 --protocol tcp \
+  --lb-name $loadBalancer --name $natRuleMaster --protocol tcp \
   --frontend-port 3306 --backend-port 3306 --frontend-ip-name myFrontEndPool
   
 az network lb inbound-nat-rule create --resource-group $resourceGroupName \
-  --lb-name myLoadBalancer --name myLoadBalancerRuleSSH2 --protocol tcp \
+  --lb-name $loadBalancer --name mySQLSSH2 --protocol tcp \
   --frontend-port 4223 --backend-port 22 --frontend-ip-name myFrontEndPool
 
 az network lb inbound-nat-rule create --resource-group $resourceGroupName \
-  --lb-name myLoadBalancer --name myLoadBalancerRuleMySQL2 --protocol tcp \
+  --lb-name $loadBalancer --name $natRuleSlave1 --protocol tcp \
   --frontend-port 3307 --backend-port 3306 --frontend-ip-name myFrontEndPool
   
 az network nic create --resource-group  $resourceGroupName --location $resourceGroupLocation --name MySQLMasterNic1 \
   --vnet-name myVnet --subnet mySubnet \
-  --lb-name myLoadBalancer --lb-address-pools myBackEndPool \
+  --lb-name $loadBalancer --lb-address-pools myBackEndPool \
   --public-ip-address "" \
-  --lb-inbound-nat-rules myLoadBalancerRuleSSH1 myLoadBalancerRuleMySQL1
+  --lb-inbound-nat-rules mySQLSSH1 $natRuleMaster
 
 az network nic create --resource-group  $resourceGroupName --location $resourceGroupLocation --name MySQLSlave1Nic1 \
   --vnet-name myVnet --subnet mySubnet \
-  --lb-name myLoadBalancer --lb-address-pools myBackEndPool \
+  --lb-name $loadBalancer --lb-address-pools myBackEndPool \
   --public-ip-address "" \
-  --lb-inbound-nat-rules myLoadBalancerRuleSSH2 myLoadBalancerRuleMySQL2
+  --lb-inbound-nat-rules mySQLSSH2 $natRuleSlave1
   
 az vm create \
     --resource-group $resourceGroupName \
