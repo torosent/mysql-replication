@@ -1,5 +1,5 @@
 #!/bin/bash
-
+docker rm $(docker ps -a -q)
 docker run --name mysql-master \
    -v /datadisks/disk1:/bitnami/mysql \
    -p 3306:3306 \
