@@ -46,6 +46,7 @@ log-slave-updates
 master-info-repository=TABLE
 relay-log-info-repository=TABLE
 relay-log-recovery=1
+read-only=1
 EOF
 fi
 
