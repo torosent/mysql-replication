@@ -9,16 +9,15 @@ relay-log=mysql-relay
 #skip-name-resolve
 port = 3306
 socket = /tmp/mysql.sock
-skip-locking
-key_buffer = 384M
+skip-external-locking
+key_buffer_size = 384M
 max_allowed_packet = 32M
-table_cache = 512
-sort_buffer_size = 2M
-read_buffer_size = 2M
+table_open_cache = 4000
+sort_buffer_size = 4M
+read_buffer_size = 4M
 read_rnd_buffer_size = 8M
-myisam_sort_buffer_size = 64M
 thread_cache_size = 8
-query_cache_size = 32M
+query_cache_size = 128M
 EOF
 
 # If there is a linked master use linked container information
