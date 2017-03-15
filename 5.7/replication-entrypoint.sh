@@ -7,6 +7,18 @@ log-bin=mysql-bin
 relay-log=mysql-relay
 #bind-address=0.0.0.0
 #skip-name-resolve
+port = 3306
+socket = /tmp/mysql.sock
+skip-locking
+key_buffer = 384M
+max_allowed_packet = 32M
+table_cache = 512
+sort_buffer_size = 2M
+read_buffer_size = 2M
+read_rnd_buffer_size = 8M
+myisam_sort_buffer_size = 64M
+thread_cache_size = 8
+query_cache_size = 32M
 EOF
 
 # If there is a linked master use linked container information
