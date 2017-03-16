@@ -1,7 +1,7 @@
 #!/bin/bash
 docker rm $(docker ps -a -q) -f
 docker run -d \
-  -v /datadisks/disk1:/var/lib/mysql \
+  -v /datadisks/disk1/db:/var/lib/mysql \
   --name mysql_master \
   --net=host \
   -e MYSQL_ROOT_PASSWORD=root_password \
