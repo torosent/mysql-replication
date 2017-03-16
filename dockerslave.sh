@@ -1,10 +1,10 @@
 #!/bin/bash
 masterhost="$1"
 docker rm $(docker ps -a -q) -f
-docker run -d -p 3306:3306 \
+docker run -d \
   -v /datadisks/disk1:/var/lib/mysql \
   --name mysql_slave \
-  --dns 168.63.129.16 \
+  --net=host \
   -e MASTER_HOST=$masterhost \
   -e MASTER_PORT=3306 \
   -e MYSQL_ROOT_PASSWORD=root_password \
