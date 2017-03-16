@@ -61,4 +61,3 @@ while ! check_slave_health; do
   let counter=counter+1
   sleep 1
 done
-
