@@ -9,8 +9,8 @@ relay-log=mysql-relay
 #skip-name-resolve
 port = 3306
 binlog_cache_size=32768
-binlog_cache_size=MIXED
-binlog_cache_size=InnoDB
+binlog_format=MIXED
+default_storage_engine=InnoDB
 explicit_defaults_for_timestamp=1
 gtid-mode=OFF
 innodb_buffer_pool_size=4500000000
