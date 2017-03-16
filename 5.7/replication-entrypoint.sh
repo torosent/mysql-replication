@@ -8,16 +8,30 @@ relay-log=mysql-relay
 #bind-address=0.0.0.0
 #skip-name-resolve
 port = 3306
-socket = /tmp/mysql.sock
-skip-external-locking
-key_buffer_size = 384M
-max_allowed_packet = 32M
-table_open_cache = 4000
-sort_buffer_size = 4M
-read_buffer_size = 4M
-read_rnd_buffer_size = 8M
-thread_cache_size = 8
-query_cache_size = 128M
+binlog_cache_size=32768
+binlog_cache_size=MIXED
+binlog_cache_size=InnoDB
+explicit_defaults_for_timestamp=1
+gtid-mode=OFF
+innodb_buffer_pool_size=4500000000
+innodb_flush_method=O_DIRECT
+innodb_log_buffer_size=8388608
+innodb_log_file_size=134217728
+key_buffer_size=16777216	
+local_infile=TABLE
+log_slave_updates=1
+log_statements_unsafe_for_binlog=0
+max_binlog_size=134217728
+max_connections=470
+performance_schema=0
+read_buffer_size = 262144
+read_rnd_buffer_size = 524288
+relay_log_recovery=1
+relay_log_info_repository=TABLE
+sync_binlog=1
+table_open_cache_instances=16
+thread_stack=262144
+
 EOF
 
 # If there is a linked master use linked container information
